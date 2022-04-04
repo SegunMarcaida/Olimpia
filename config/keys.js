@@ -1,4 +1,4 @@
-dbPassword = 'mongodb+srv://segundo:olimpia@cluster0-xahr1.mongodb.net\n' +
+dbPassword = 'mongodb+srv://password:@database-xahr1.mongodb.net\n' +
     '\n';
 
 module.exports = {
