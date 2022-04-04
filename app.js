@@ -4,8 +4,10 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const flash = require('connect-flash');
 const session = require('express-session');
+const cors = require('cors');
 
 const app = express();
+const bodyParser = require('body-parser');
 
 // Passport Config
 require('./config/passport')(passport);
@@ -25,6 +27,8 @@ app.set('view engine', 'ejs');
 
 // Express body parser
 app.use(express.urlencoded({ extended: true }));
+app.use(cors())
+app.use(bodyParser.json());
 
 // Express session
 app.use(
@@ -52,8 +56,10 @@ app.use(function(req, res, next) {
 
 // Routes
 app.use('/', require('./routes/index.js'));
-app.use('/users', require('./routes/users.js'));
-app.use('/admins',require('./routes/admins'))
+app.use('/users', require('./routes/usersLog.js'));
+app.use('/admins',require('./routes/adminsLog'));
+app.use('/adminDashboard', require('./routes/adminDashboard.js'));
+app.use('/dashboard', require('./routes/dashboard.js'));
 
 const PORT = process.env.PORT || 5000;
 

@@ -2,22 +2,23 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
-// Load admin model
-const Admin = require('../models/admin');
+// Load User model
+const User = require('../models/User');
 const { forwardAuthenticated } = require('../config/auth');
 
 // Login Page
-router.get('/login', forwardAuthenticated, (req, res) => res.render('adminLogin'));
+router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
 
 // Register Page
-router.get('/register', forwardAuthenticated, (req, res) => res.render('adminRegister'));
+router.get('/register', forwardAuthenticated, (req, res) => res.render('register'));
 
 // Register
 router.post('/register', (req, res) => {
-    const { name, email, password,password2 } = req.body;
+
+    const { name, email, password, password2 } = req.body;
     let errors = [];
 
-    if (!name || !email || !password ||!password2  ) {
+    if (!name || !email || !password || !password2) {
         errors.push({ msg: 'Please enter all fields' });
     }
 
@@ -30,7 +31,7 @@ router.post('/register', (req, res) => {
     }
 
     if (errors.length > 0) {
-        res.render('adminRegister', {
+        res.render('register', {
             errors,
             name,
             email,
@@ -38,10 +39,10 @@ router.post('/register', (req, res) => {
             password2
         });
     } else {
-        Admin.findOne({ email: email }).then(admin => {
-            if (admin) {
+        User.findOne({ email: email }).then(user => {
+            if (user) {
                 errors.push({ msg: 'Email already exists' });
-                res.render('adminRegister', {
+                res.render('register', {
                     errors,
                     name,
                     email,
@@ -49,23 +50,21 @@ router.post('/register', (req, res) => {
                     password2
                 });
             } else {
-                const newAdmin = new Admin({
+                const newUser = new User({
                     name,
                     email,
                     password
                 });
 
                 bcrypt.genSalt(10, (err, salt) => {
-                    bcrypt.hash(newAdmin.password, salt, (err, hash) => {
+                    bcrypt.hash(newUser.password, salt, (err, hash) => {
                         if (err) throw err;
-                        newAdmin.password = hash;
-                        newAdmin
+                        newUser.password = hash;
+                        newUser
                             .save()
-                            .then(admin => {
-                                req.flash(
-                                    'You are now registered and can log in'
-                                );
-                                res.redirect('/admins/login');
+                            .then(user => {
+                                req.flash('You are now registered and can log in');
+                                res.redirect('/users/login');
                             })
                             .catch(err => console.log(err));
                     });
@@ -78,17 +77,19 @@ router.post('/register', (req, res) => {
 // Login
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
-        successRedirect: '/adminDashboard',
-        failureRedirect: '/admins/login',
-        failureFlash: true
+        successRedirect: '/dashboard',
+        failureRedirect: '/users/login',
+        failureFlash: true,
+
     })(req, res, next);
+
 });
 
 // Logout
 router.get('/logout', (req, res) => {
     req.logout();
-    req.flash( 'You are logged out');
-    res.redirect('/admins/login');
+    req.flash('You are logged out');
+    res.redirect('/users/login');
 });
 
 module.exports = router;
