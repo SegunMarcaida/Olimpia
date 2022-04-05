@@ -56,9 +56,8 @@ app.use(function(req, res, next) {
 
 // Routes
 app.use('/', require('./routes/index.js'));
-app.use('/users', require('./routes/usersLog.js'));
-app.use('/admins',require('./routes/adminsLog'));
-app.use('/adminDashboard', require('./routes/adminDashboard.js'));
+app.use('/olimpia',require('./routes/Log'));
+app.use('/admin-dashboard', require('./routes/admin-dashboard.js'));
 app.use('/dashboard', require('./routes/dashboard.js'));
 
 const PORT = process.env.PORT || 5000;

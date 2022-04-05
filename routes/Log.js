@@ -3,18 +3,20 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 // Load admin model
-const Admin = require('../models/admin').Admin;
 const { forwardAuthenticated } = require('../config/auth');
+const User = require("../models/User");
 
 // Login Page
-router.get('/login', forwardAuthenticated)
+router.get('/login' ,forwardAuthenticated,(req,res) => {
+    res.render('login')
+})
 
 // Register Page
 router.get('/register', forwardAuthenticated)
 
 // Register
 router.post('/register', (req, res) => {
-    const { name, email, password,password2,phone } = req.body;
+    const { name, email, password,password2,phone,isAdmin } = req.body;
     let errors = [];
 
     if (!name || !email || !password ||!password2  ) {
@@ -36,10 +38,12 @@ router.post('/register', (req, res) => {
             email,
             password,
             password2,
-            phone
+            phone,
+            isAdmin
         });
     } else {
-        Admin.findOne({ email: email }).then(admin => {
+        User.findOne({ email: email }).then(admin => {
+            console.log(admin)
             if (admin) {
                 errors.push({ msg: 'Email already exists' });
                 res.render('adminRegister', {
@@ -48,27 +52,29 @@ router.post('/register', (req, res) => {
                     email,
                     password,
                     password2,
-                    phone
+                    phone,
+                    isAdmin
                 });
             } else {
-                const newAdmin = new Admin({
+                const newClient = new User({
                     name,
                     email,
                     password,
-                    phone
+                    phone,
+                    isAdmin
                 });
 
                 bcrypt.genSalt(10, (err, salt) => {
-                    bcrypt.hash(newAdmin.password, salt, (err, hash) => {
+                    bcrypt.hash(newClient.password, salt, (err, hash) => {
                         if (err) throw err;
-                        newAdmin.password = hash;
-                        newAdmin
+                        newClient.password = hash;
+                        newClient
                             .save()
                             .then(admin => {
                                 req.flash(
                                     'You are now registered and can log in'
                                 );
-                                res.redirect('/admins/login');
+                                res.redirect('/olimpia/login');
                             })
                             .catch(err => console.log(err));
                     });
@@ -76,21 +82,32 @@ router.post('/register', (req, res) => {
             }
         });
     }
+
 });
 
 // Login
 router.post('/login', (req, res, next) => {
-    passport.authenticate('local', {
-        successRedirect: '/adminDashboard',
-        failureRedirect: '/admins/login',
-        failureFlash: true
-    })(req, res, next);
+    if (!req.body.isAdmin) {
+
+        passport.authenticate('user-local', {
+            successRedirect: '/dashboard',
+            failureRedirect: '/olimpia/login',
+            failureFlash: true
+        })(req, res, next);
+    }else
+        {
+            passport.authenticate('admin-local', {
+                successRedirect: '/adminDashboard',
+                failureRedirect: '/olimpia/login',
+                failureFlash: true
+            })(req, res, next);
+        }
 });
 
 // Logout
 router.get('/logout', (req, res) => {
     req.logout();
-    res.redirect('/admins/login');
+    res.redirect('/login');
 });
 
 module.exports = router;

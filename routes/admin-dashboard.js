@@ -1,4 +1,5 @@
 const express = require('express');
+const {ensureAuthenticatedAdmin, ensureAuthorizedAdmin, ensureAuthenticated} = require("../config/auth");
 const router = express.Router();
 const Field = require('../models/field').Field;
 const url = 'mongodb+srv://segundo:olimpia@cluster0.rutme.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
@@ -8,7 +9,7 @@ router.get('/addfield', (req, res) => {
 
 })
 //findReserves
-router.get('/mycourts',(req,res)=>{
+router.get('/mycourts', ensureAuthenticated, ensureAuthorizedAdmin,(req,res)=>{
     let admin = req.body.admin;
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
@@ -24,7 +25,7 @@ router.get('/mycourts',(req,res)=>{
 })
 
 // add Field    
-router.post('/addfield',(req,res)=>{
+router.post('/addfield',ensureAuthenticated,ensureAuthorizedAdmin,(req,res)=>{
     const {name, sport,location,description, amount,price,admin} = req.body;
    Field.findOne({name:name}).then(field=>{
         if (field){

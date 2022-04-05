@@ -3,8 +3,9 @@ const router = express.Router();
 const url = 'mongodb+srv://segundo:olimpia@cluster0.rutme.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 const MongoClient = require('mongodb').MongoClient;
 const Reserves = require('../models/reserves')
+const {ensureAuthenticated} = require("../config/auth");
 //make a reserve
-router.post('/makeReserve',
+router.post('/makeReserve' ,ensureAuthenticated,
     (req, res) => {
         const {court, user, startDate,endDate} = req.body;
         let name = court.name;
@@ -61,7 +62,7 @@ router.post('/makeReserve',
 
     })
 
-router.get('/myReservations', function (req, res) {
+router.get('/myReservations' ,ensureAuthenticated, function (req, res) {
     let user = req.body.user;
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;

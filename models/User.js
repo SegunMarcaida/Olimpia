@@ -13,11 +13,15 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    date: {
-        type: Date,
-        default: Date.now
+    phone:{
+      type: String,
+      required: true
+    },
+    isAdmin:{
+        type: Boolean,
+        required: true
     }
-},{collection: 'user'});
+},{collection: 'User'});
 
 const User = mongoose.model('User', UserSchema);
 
