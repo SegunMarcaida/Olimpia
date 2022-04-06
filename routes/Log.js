@@ -22,18 +22,38 @@ router.post('/register', register());
 router.post('/login', (req, res, next) => {
     if (!req.body.isAdmin) {
 
-        passport.authenticate('user-local', {
-            successRedirect: '/dashboard',
-            failureRedirect: '',
-            failureFlash: true
-        })(req, res, next);
+        passport.authenticate('user-local',function (err,user,info) {
+            if (err) {
+                return next(err); // will generate a 500 error
+            }
+            // Generate a JSON response reflecting authentication status
+            if (! user) {
+            return res.send(401,{ success : false, message : 'authentication failed' });
+        }
+        req.login(user, function(err){
+            if(err){
+                return next(err);
+            }
+            return res.send({ success : true, message : 'authentication succeeded' });
+        });
+    })(req, res, next);
     }else
         {
-            passport.authenticate('admin-local', {
-                successRedirect: '/adminDashboard',
-                failureRedirect: '',
-                failureFlash: true
-            })(req, res, next);
+            passport.authenticate('admin-local', function(err,user,info){
+                if (err) {
+                    return next(err); // will generate a 500 error
+                }
+                // Generate a JSON response reflecting authentication status
+                if (! user) {
+            return res.send(401,{ success : false, message : 'authentication failed' });
+        }
+            req.login(user, function(err){
+                if(err){
+                    return next(err);
+                }
+                return res.send({ success : true, message : 'authentication succeeded' });
+            });
+        })(req, res, next);
         }
 });
 
