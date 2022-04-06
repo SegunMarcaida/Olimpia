@@ -4,71 +4,19 @@ const url = 'mongodb+srv://segundo:olimpia@cluster0.rutme.mongodb.net/myFirstDat
 const MongoClient = require('mongodb').MongoClient;
 const Reserves = require('../models/reserves')
 const {ensureAuthenticated} = require("../config/auth");
+const makeReserve = require("../controllers/user/makeResersve");
+;
 //make a reserve
-router.post('/makeReserve' ,ensureAuthenticated,
-    (req, res) => {
-        const {court, user, startDate,endDate} = req.body;
-        let name = court.name;
-        let startDateInt = startDate.getTime();
-        let endDateInt = endDate.getTime();
-        let query1 = {
-            $and: [{
-                $or: [{
-                    $and: [
-                        {
-                            startDate: {'$lte': startDateInt}
-                        },
-                        {
-                            endDate: {'$gte': startDateInt}
-                        }
+router.post('/makeReserve' ,ensureAuthenticated,makeReserve())
 
-                    ]
-                }, {
-                    $and: [
-                        {
-                            startDate: {'$gte': startDateInt}
-                        },
-                        {
-                            endDate: {'$lte': endDateInt}
-                        }
-                    ]
-                }, {
-                    $and: [
-                        {
-                            startDate: {'$lte': endDateInt}
-                        },
-                        {
-                            endDate: {'$gte': endDateInt}
-                        }
-                    ]
-                }
-
-                ]
-            },
-                    {name:name},
-
-            ]
-        };
-        Reserves.findOne(query1).then(field => {
-            if (field){
-                console.log(field)
-                res.send('already Reserved');
-            } else {
-                let newReserve = new Reserves({court, user, startDate: startDateInt, endDate: endDateInt,name});
-                newReserve.save();
-                res.send('reserved');
-            }
-        })
-
-    })
-
-router.get('/myReservations' ,ensureAuthenticated, function (req, res) {
+router.get('/myReservations' ,ensureAuthenticated, (req, res)=> {
     let user = req.body.user;
-    MongoClient.connect(url, function(err, db) {
+    MongoClient.connect(url,(err, db)=> {
         if (err) throw err;
         let dbo = db.db();
-        let query = { user:user };
-        dbo.collection("reserves").find(query).toArray(function(err, result) {
+        let query = {user: user};
+        dbo.query(query)
+         dbo.collection("reserves").find(query).toArray(function (err, result) {
             if (err) throw err;
             res.send(result);
 

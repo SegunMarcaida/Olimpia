@@ -18,14 +18,11 @@ module.exports = {
     forwardAuthenticated: function(req, res, next) {
         if (!req.isAuthenticated()) {
             return next();
-            console.log("1 "+req.user.isAdmin);
         }
         if (!req.user.isAdmin) {
             console.log("2"+req.user.isAdmin);
-            res.redirect('/dashboard');
         }else{
             console.log("3"+req.user.isAdmin);
-            res.redirect('/admin-dashboard')
         }
     }
 
