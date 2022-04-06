@@ -1,5 +1,6 @@
 const passport = require("passport");
 const express = require("express");
+//const {userLocal,adminLocal} = require(".../config/passport.js");
 module.exports= function() {
     return async function (req, res,next) {
         if (!req.body.isAdmin) {

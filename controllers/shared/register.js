@@ -18,7 +18,7 @@ const bcrypt = require("bcryptjs");
          }
 
          if (errors.length > 0) {
-             res.render(400,{msg: 'there are some errors',
+             res.send(400,{msg: 'there are some errors',
                  errors});
          } else {
           await User.findOne({email: email}).then(async admin => {

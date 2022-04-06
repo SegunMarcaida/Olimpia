@@ -11,6 +11,7 @@ const bodyParser = require('body-parser');
 
 // Passport Config
 require('./config/passport')(passport);
+require('./config/adminpassport')(passport)
 
 // DB Config
 const db = 'mongodb+srv://segundo:olimpia@cluster0.rutme.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
