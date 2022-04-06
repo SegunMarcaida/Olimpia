@@ -14,6 +14,7 @@ module.exports = function(passport) {
                 if (!user) {
                     return done(null, false, {message: 'That email is not registered'});
                 }
+                console.log("1"+ user.isAdmin)
                 if (user.isAdmin) {
                     return done(null, false, {message: 'This email is not registered as user'});
                 }
