@@ -18,13 +18,13 @@ const bcrypt = require("bcryptjs");
          }
 
          if (errors.length > 0) {
-             res.send(400,{msg: 'there are some errors',
+             res.send(400,{success: false,msg: 'there are some errors',
                  errors});
          } else {
           await User.findOne({email: email}).then(async admin => {
               console.log(admin)
               if (admin) {
-                  res.send(418, {msg: 'email already in use'});
+                  res.send(418, {success: false,msg: 'email already in use'});
               } else {
                   const newClient = new User({
                       username,
@@ -41,7 +41,7 @@ const bcrypt = require("bcryptjs");
                           newClient
                               .save()
                               .then(admin => {
-                                  res.send(201, {msg: 'user saved'})
+                                  res.send(201, {success: true,msg: 'user saved'})
                               })
                               .catch(err => console.log(err));
                       });
