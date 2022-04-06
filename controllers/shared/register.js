@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
  module.exports = function(){
      return async function (req, res) {
          const {username, email, password, password2, phone, isAdmin} = req.body;
-        /* let errors = [];
+         let errors = [];
 
          if (!username || !email || !password || !password2) {
              errors.push({msg: 'Please enter all fields'});
@@ -18,8 +18,9 @@ const bcrypt = require("bcryptjs");
          }
 
          if (errors.length > 0) {
-             res.render(400,'errors', errors);
-         } else {*/
+             res.render(400,{msg: 'there are some errors',
+                 errors});
+         } else {
           await User.findOne({email: email}).then(async admin => {
               console.log(admin)
               if (admin) {
@@ -48,5 +49,5 @@ const bcrypt = require("bcryptjs");
               }
           });
          }
-    // }
+     }
 }
