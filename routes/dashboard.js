@@ -5,25 +5,13 @@ const MongoClient = require('mongodb').MongoClient;
 const Reserves = require('../models/reserves')
 const {ensureAuthenticated} = require("../config/auth");
 const makeReserve = require("../controllers/user/makeResersve");
+const myReservations = require("../controllers/user/myReservations");
+
 ;
 //make a reserve
-router.post('/makeReserve' ,ensureAuthenticated,makeReserve())
+router.post('/make-reserve' ,ensureAuthenticated,makeReserve())
 
-router.get('/myReservations' ,ensureAuthenticated, (req, res)=> {
-    let user = req.body.user;
-    MongoClient.connect(url,(err, db)=> {
-        if (err) throw err;
-        let dbo = db.db();
-        let query = {user: user};
-        dbo.query(query)
-         dbo.collection("reserves").find(query).toArray(function (err, result) {
-            if (err) throw err;
-            res.send(result);
-
-            db.close();
-        });
-    });
-})
+router.get('/my-reservations' ,ensureAuthenticated, myReservations())
 
 
 module.exports = router;

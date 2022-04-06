@@ -6,25 +6,25 @@ const User = require('../models/User');
 
 module.exports = function(passport) {
     passport.use('user-local',
-        new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
+        new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
             // Match user
-            User.findOne({
+            await User.findOne({
                 email: email
-            }).then(user => {
+            }).then(async user => {
                 if (!user) {
-                    return done(null, false, { message: 'That email is not registered' });
+                    return done(null, false, {message: 'That email is not registered'});
                 }
-                if(user.isAdmin) {
+                if (user.isAdmin) {
                     return done(null, false, {message: 'This email is not registered as user'});
                 }
 
                 // Match password
-                bcrypt.compare(password, user.password, (err, isMatch) => {
+                await bcrypt.compare(password, user.password, (err, isMatch) => {
                     if (err) throw err;
                     if (isMatch) {
                         return done(null, user);
                     } else {
-                        return done(null, false, { message: 'Password incorrect' });
+                        return done(null, false, {message: 'Password incorrect'});
                     }
                 });
             });
@@ -32,25 +32,25 @@ module.exports = function(passport) {
     );
 
     passport.use('admins-local',
-        new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
+        new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
             // Match user
-            User.findOne({
+            await User.findOne({
                 email: email
-            }).then(user => {
+            }).then(async user => {
                 if (!user) {
-                    return done(null, false, { message: 'That email is not registered' });
+                    return done(null, false, {message: 'That email is not registered'});
                 }
-                if (!user.isAdmin){
-                    return done(null, false, { message: 'this email is not registered as Admin' });
+                if (!user.isAdmin) {
+                    return done(null, false, {message: 'this email is not registered as Admin'});
                 }
 
                 // Match password
-                bcrypt.compare(password, user.password, (err, isMatch) => {
+                await bcrypt.compare(password, user.password, (err, isMatch) => {
                     if (err) throw err;
                     if (isMatch) {
                         return done(null, user);
                     } else {
-                        return done(null, false, { message: 'Password incorrect' });
+                        return done(null, false, {message: 'Password incorrect'});
                     }
                 });
             });

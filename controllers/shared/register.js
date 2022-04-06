@@ -2,10 +2,10 @@ const User = require("../../models/User");
 const bcrypt = require("bcryptjs");
  module.exports = function(){
      return async function (req, res) {
-         const {name, email, password, password2, phone, isAdmin} = req.body;
-         let errors = [];
+         const {username, email, password, password2, phone, isAdmin} = req.body;
+        /* let errors = [];
 
-         if (!name || !email || !password || !password2) {
+         if (!username || !email || !password || !password2) {
              errors.push({msg: 'Please enter all fields'});
          }
 
@@ -18,55 +18,35 @@ const bcrypt = require("bcryptjs");
          }
 
          if (errors.length > 0) {
-             res.render('adminRegister', {
-                 errors,
-                 name,
-                 email,
-                 password,
-                 password2,
-                 phone,
-                 isAdmin
-             });
-         } else {
-             User.findOne({email: email}).then(admin => {
-                 console.log(admin)
-                 if (admin) {
-                     errors.push({msg: 'Email already exists'});
-                     res.render('adminRegister', {
-                         errors,
-                         name,
-                         email,
-                         password,
-                         password2,
-                         phone,
-                         isAdmin
-                     });
-                 } else {
-                     const newClient = new User({
-                         name,
-                         email,
-                         password,
-                         phone,
-                         isAdmin
-                     });
+             res.render(400,'errors', errors);
+         } else {*/
+          await User.findOne({email: email}).then(async admin => {
+              console.log(admin)
+              if (admin) {
+                  res.send(418, {msg: 'email already in use'});
+              } else {
+                  const newClient = new User({
+                      username,
+                      email,
+                      password,
+                      phone,
+                      isAdmin
+                  });
 
-                     bcrypt.genSalt(10, (err, salt) => {
-                         bcrypt.hash(newClient.password, salt, (err, hash) => {
-                             if (err) throw err;
-                             newClient.password = hash;
-                             newClient
-                                 .save()
-                                 .then(admin => {
-                                     req.flash(
-                                         'You are now registered and can log in'
-                                     );
-                                     res.redirect('/olimpia/login');
-                                 })
-                                 .catch(err => console.log(err));
-                         });
-                     });
-                 }
-             });
+                  await bcrypt.genSalt(10, async (err, salt) => {
+                      await bcrypt.hash(newClient.password, salt, (err, hash) => {
+                          if (err) throw err;
+                          newClient.password = hash;
+                          newClient
+                              .save()
+                              .then(admin => {
+                                  res.send(201, {msg: 'user saved'})
+                              })
+                              .catch(err => console.log(err));
+                      });
+                  });
+              }
+          });
          }
-     }
+    // }
 }
