@@ -1,6 +1,6 @@
 const passport = require("passport");
 const express = require("express");
-//const {userLocal,adminLocal} = require(".../config/passport.js");
+
 module.exports= function() {
     return async function (req, res,next) {
         if (!req.body.isAdmin) {
@@ -16,7 +16,7 @@ module.exports= function() {
                     if (err) {
                         return next(err);
                     }
-                    return res.send(202, {success: true, message: 'authentication succeeded'});
+                    return res.send(202, {success: true, message: 'authentication succeeded', userID:user.id});
                 });
             })(req, res, next);
         } else {
@@ -32,7 +32,7 @@ module.exports= function() {
                     if (err) {
                         return next(err);
                     }
-                    return res.send({success: true, message: 'authentication succeeded'});
+                    return res.send(202,{success: true, message: 'authentication succeeded', userId:user.id});
                 });
             })(req, res, next);
         }

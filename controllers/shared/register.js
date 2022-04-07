@@ -1,8 +1,8 @@
-const User = require("../../models/User");
+const User = require("../../models/User").User;
 const bcrypt = require("bcryptjs");
  module.exports = function(){
      return async function (req, res) {
-         const {username, email, password, password2, phone, isAdmin} = req.body;
+         const {username, email, password, password2, phone, isAdmin,id} = req.body;
          let errors = [];
 
          if (!username || !email || !password || !password2) {
@@ -31,7 +31,8 @@ const bcrypt = require("bcryptjs");
                       email,
                       password,
                       phone,
-                      isAdmin
+                      isAdmin,
+                      id
                   });
 
                   await bcrypt.genSalt(10, async (err, salt) => {

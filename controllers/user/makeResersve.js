@@ -3,7 +3,7 @@ const Reserves = require("../../models/reserves");
     module.exports = function () {
         return async function (req, res) {
             const {court, user, startDate, endDate} = req.body;
-            let name = court.name;
+            let id = court.id;
             let startDateInt = startDate.getTime();
             let endDateInt = endDate.getTime();
             let query1 = {
@@ -48,7 +48,7 @@ const Reserves = require("../../models/reserves");
                     console.log(field)
                     res.send('already Reserved');
                 } else {
-                    let newReserve = new Reserves({court, user, startDate: startDateInt, endDate: endDateInt, name});
+                    let newReserve = new Reserves({court, user, startDate: startDateInt, endDate: endDateInt, name,id});
                     newReserve.save();
                     res.send('reserved');
                 }

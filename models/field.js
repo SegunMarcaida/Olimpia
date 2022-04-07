@@ -1,8 +1,13 @@
 const mongoose = require('mongoose');
-
+const PointSchema = require('./Point')
+const {ObjectId} = require("mongodb");
+const UserSchema = require('./User').UserSchema
 
 
 const FieldSchema = new mongoose.Schema({
+    _id:{
+        type: String,
+    },
     name: {
         type: String,
         required: true
@@ -12,7 +17,7 @@ const FieldSchema = new mongoose.Schema({
         required: true
     },
     location: {
-        type: String,
+        type: PointSchema,
         required: true
     },
     description: {
@@ -27,13 +32,9 @@ const FieldSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    admin: {
-        type:String,
+    adminId: {
+        type:ObjectId,
         required: true
-    },
-    id: {
-        type:String,
-        default: mongoose.Types.ObjectId
     }
 },{collection: 'fields'});
 const Field = mongoose.model('Field', FieldSchema);
