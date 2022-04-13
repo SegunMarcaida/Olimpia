@@ -18,7 +18,7 @@ const db = 'mongodb+srv://segundo:olimpia@cluster0.rutme.mongodb.net/myFirstData
 
 // Connect to MongoDB
 mongoose
-    .connect(db)
+    .connect(db,{useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => console.log('MongoDB Connected'))
     .catch(err => console.log(err));
 
