@@ -1,11 +1,13 @@
 const Reserves = require("../../models/reserves");
+const {ObjectId} = require("mongodb");
 
     module.exports = function () {
         return async function (req, res) {
-            const {court, user, startDate, endDate} = req.body;
-            let id = court.id;
-            let startDateInt = startDate.getTime();
-            let endDateInt = endDate.getTime();
+            const {userId, startDate, endDate,courtId} = req.body;
+            let startDateInt = startDate;
+            let endDateInt = endDate;
+              let courtIdObj = new ObjectId(courtId)
+              let userIdObj = new ObjectId(userId)
             let query1 = {
                 $and: [{
                     $or: [{
@@ -40,17 +42,17 @@ const Reserves = require("../../models/reserves");
 
                     ]
                 },
-                    {name: name},
+                    {courtId: courtId},
                 ]
             };
             await Reserves.findOne(query1).then(field => {
                 if (field) {
                     console.log(field)
-                    res.send('already Reserved');
+                    res.send(418, {msg: 'already Reserved',});
                 } else {
-                    let newReserve = new Reserves({court, user, startDate: startDateInt, endDate: endDateInt, name,id});
+                    let newReserve = new Reserves({userId:userIdObj, startDate: startDateInt, endDate: endDateInt,courtId:courtIdObj});
                     newReserve.save();
-                    res.send('reserved');
+                    res.send(202, {msg: 'Reservation Completed',courtId: newReserve.id})
                 }
             })
         }

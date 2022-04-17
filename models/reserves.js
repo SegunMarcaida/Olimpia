@@ -1,14 +1,11 @@
 const mongoose = require("mongoose");
+const {ObjectId} = require("mongodb");
 
 const FieldSchema = require("./field").FieldSchema
 
 const ReserveSchema = new mongoose.Schema({
-   court:{
-       type: FieldSchema,
-       required: true
-   },
-    user:{
-      type: String,
+    userId:{
+      type: ObjectId,
       required: true
     },
     startDate: {
@@ -19,8 +16,8 @@ const ReserveSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    name: {
-        type: String,
+    courtId: {
+       type: ObjectId,
         required: true
     }
 },{collection: 'reserves'});

@@ -6,10 +6,10 @@ const myReservations = require("../controllers/user/myReservations");
 
 ;
 //make a reserve
-router.post('/make-reserve' ,ensureAuthenticated,makeReserve())
+router.post('/makeReserve' ,ensureAuthenticated,makeReserve())
 
-router.get('/my-reservations' ,ensureAuthenticated, myReservations())
+router.get('/myReservations' ,ensureAuthenticated, myReservations())
 
-
+//router.get('/search', ensureAuthenticated,require('./search'))
 
 module.exports = router;

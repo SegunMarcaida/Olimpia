@@ -18,7 +18,7 @@ module.exports = function () {
           await  MongoClient.connect(url, async function (err, db) {
               if (err) throw err;
               let dbo = db.db();
-              let query = {name:name,adminId:new ObjectId(adminId)};
+              let query = {name:name,adminId:adminId};
               await dbo.collection("fields").updateOne(query, {$set:newValues},function (err, result) {
                   if (err) throw err;
                  res.send(201,{msg:'court updated'})
