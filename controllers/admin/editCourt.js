@@ -2,9 +2,12 @@
 const {MongoClient, ObjectId} = require("mongodb");
 const {Field} = require("../../models/field").Field;
 const url = require('../../config/keys').mongoURI
+
 module.exports = function () {
+
     return async function (req, res) {
-        const {name, sport, location, description, amount, price,adminId} = req.body;
+        const adminId = req.user._id
+        const {name, sport, location, description, amount, price} = req.body;
         const newValues ={};
         if (name) {newValues["name"]=name}
         if (sport) {newValues["sport"]=sport}

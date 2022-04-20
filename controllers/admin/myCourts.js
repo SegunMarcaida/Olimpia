@@ -3,9 +3,8 @@ const url = require('../../config/keys').mongoURI
 
 module.exports = function() {
     return async function (req, res) {
-        let adminId = req.body.adminId;
+        let adminId = req.user._id;
         console.log(adminId)
-        adminId = new ObjectId(adminId)
         MongoClient.connect(url, async function (err, db) {
 
             if (err) throw err;

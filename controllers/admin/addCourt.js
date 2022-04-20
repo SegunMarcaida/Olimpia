@@ -7,7 +7,8 @@ function sleep(ms) {
 
 module.exports = function () {
     return async function (req, res) {
-        const {name, sport, location, description, amount, price, adminId} = req.body;
+        const adminId = req.user._id
+        const {name, sport, location, description, amount, price} = req.body;
         await Field.findOne({$and:[{name: name},{adminId: adminId}]}).then(async field => {
             if (field) {
                 res.send(418, {msg: 'field already registered',});

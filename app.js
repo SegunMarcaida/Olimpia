@@ -26,9 +26,13 @@ mongoose
 app.use(expressLayouts);
 app.set('view engine', 'ejs');
 
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    credentials: true
+}
 // Express body parser
 app.use(express.urlencoded({ extended: true }));
-app.use(cors())
+app.use(cors(corsOptions))
 app.use(bodyParser.json());
 
 // Express session
