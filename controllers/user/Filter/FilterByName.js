@@ -1,16 +1,20 @@
 const {MongoClient} = require("mongodb");
-const url = require("url");
-const Fields = require("../../../models/field").Field;
+const url = require('../../../config/keys').mongoURI
+
 
 module.exports = function () {
     return async function (req, res) {
-        let name = req.body.name;
+        let {name} = req.body;
+        if(!name || typeof name !== 'string') {
+            res.send(400, {
+                success: false, msg: 'there are some errors',
+            })
+        }
         await MongoClient.connect(url, (err, db) => {
             if (err) throw err;
             let dbo = db.db();
             let query = {name: name};
-            dbo.query(query)
-            dbo.collection("reserves").find(query).toArray(function (err, result) {
+            dbo.collection("fields").find(query).toArray(function (err, result) {
                 if (err) throw err;
                 if (result.length > 0) {
                     res.send(200, {

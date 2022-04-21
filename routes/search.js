@@ -1,4 +1,4 @@
-const {ensureAuthenticated} = require("../config/auth");
+/*const {ensureAuthenticated} = require("../config/auth");
 const express = require("express");
 const makeReserve = require("../controllers/user/makeResersve");
 const router = express.Router();
@@ -11,3 +11,4 @@ const FilterByPrice = require("../controllers/user/Filter/FilterByPrice")
 //router.post('/filterByLocation' ,ensureAuthenticated,FilterByLocation())
 //router.post('/filterByName' ,ensureAuthenticated,FilterByName())
 //router.post('/filterByPrice' ,ensureAuthenticated,FilterByPrice())
+*/

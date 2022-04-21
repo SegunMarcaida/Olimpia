@@ -1,4 +1,4 @@
-const {MongoClient} = require("mongodb");
+/*const {MongoClient} = require("mongodb");
 const url = require("url");
 
 module.exports = function () {
@@ -12,7 +12,7 @@ module.exports = function () {
             let query = {
                 loc: { $geoWithin: { $centerSphere: [ [ x, y ], radius ] } }
             }
-            dbo.query(query)
+           dbo.query(query)
             dbo.collection("reserves").find(query).toArray(function (err, result) {
                 if (err) throw err;
                 if (result.length > 0) {
@@ -31,3 +31,5 @@ module.exports = function () {
         });
     }
 }
+*/
+
