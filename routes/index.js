@@ -9,6 +9,6 @@ router.get('/', forwardAuthenticated, (req, res) => res.render('welcome'));
 
 // Dashboard
 router.get('/dashboard',ensureAuthenticated);
-router.get('/admin-dashboard', ensureAuthenticated,ensureAuthorizedAdmin)
+router.get('/adminDashboard', ensureAuthenticated,ensureAuthorizedAdmin)
 
 module.exports = router;
