@@ -1,19 +1,19 @@
-/*const {MongoClient} = require("mongodb");
-const url = require("url");
+const {MongoClient} = require("mongodb");
+const url = require('../../../config/keys').mongoURI
 
 module.exports = function () {
     return async function (req, res) {
         let x = req.body.coordinateX;
         let y = req.body.coordinateY;
+
         let radius = req.body.radius;
         await MongoClient.connect(url, (err, db) => {
             if (err) throw err;
             let dbo = db.db();
             let query = {
-                loc: { $geoWithin: { $centerSphere: [ [ x, y ], radius ] } }
+                location: { $geoWithin: { $centerSphere: [ [ x, y ], radius/6341] } }
             }
-           dbo.query(query)
-            dbo.collection("reserves").find(query).toArray(function (err, result) {
+            dbo.collection("fields").find(query).toArray(function (err, result) {
                 if (err) throw err;
                 if (result.length > 0) {
                     res.send(200, {
@@ -31,5 +31,5 @@ module.exports = function () {
         });
     }
 }
-*/
+
 

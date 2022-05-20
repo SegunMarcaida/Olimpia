@@ -12,7 +12,7 @@ const {ObjectId} = require("mongodb");
                 $and: [{
                     $or: [{
                         $and: [
-                            {
+                                    {
                                 startDate: {'$lte': startDateInt}
                             },
                             {
