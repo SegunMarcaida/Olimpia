@@ -4,7 +4,7 @@ const express = require("express");
 module.exports= function() {
     return async function (req, res,next) {
         if (!req.body.isAdmin) {
-            await passport.authenticate('user-local', function (err, user, info) {
+            await passport.authenticate('local', function (err, user, info) {
                 if (err) {
                     return next(err); // will generate a 500 error
                 }
@@ -20,7 +20,7 @@ module.exports= function() {
                 });
             })(req, res, next);
         } else {
-           await passport.authenticate('admin-local', function (err, user, info) {
+           await passport.authenticate('local', function (err, user, info) {
                 if (err) {
                     return next(err); // will generate a 500 error
                 }

@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/User').User;
 
 module.exports = function(passport) {
-    passport.use('user-local',
+    passport.use('local',
         new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
             // Match user
             await User.findOne({
@@ -14,10 +14,6 @@ module.exports = function(passport) {
                 if (!user) {
                     return done(null, false, {message: 'That email is not registered'});
                 }
-                if (user.isAdmin) {
-                    return done(null, false, {message: 'This email is not registered as user'});
-                }
-
                 // Match password
                 await bcrypt.compare(password, user.password, (err, isMatch) => {
                     if (err) throw err;
