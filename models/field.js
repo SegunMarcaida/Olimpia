@@ -28,7 +28,19 @@ const FieldSchema = new mongoose.Schema({
     adminId: {
         type:ObjectId,
         required: true
-    }
+    },
+    qualifications:{
+        type: [Number],
+        required: true
+    },
+    openHour: {
+      type:Number ,
+      required: true
+
+    },closeHour: {
+      type:Number ,
+      required: true
+    },
 },{collection: 'fields'});
 const Field = mongoose.model('Field', FieldSchema);
 module.exports = {

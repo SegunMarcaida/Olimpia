@@ -1,15 +1,10 @@
 const Field = require("../../models/field").Field;
-function sleep(ms) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, ms);
-    });
-}
 
 module.exports = function () {
     return async function (req, res) {
         const adminId = req.user._id
         let errors = [];
-        const {name, sport, location, description, price} = req.body;
+        const {name, sport, location, description, price, closeHour, openHour} = req.body;
         if (!name || !sport || !location || !description || !price) {
             errors.push({msg: " please fill all data"})
         }
@@ -34,7 +29,7 @@ module.exports = function () {
                 if (field) {
                     res.send(418, {msg: 'field already registered',});
                 } else {
-                    let newField = new Field({name, sport, location, description, price, adminId})
+                    let newField = new Field({name, sport, location, description, price, adminId,openHour,closeHour,qualification:[]})
                     newField.save()
                     res.send(202, {
                         msg: 'court saved successfully',

@@ -1,6 +1,10 @@
-module.exports = function (){
+module.exports = function () {
     return async function (req, res) {
         req.logout();
-        res.send('200',{msg:'logged out'});
+        req.session.destroy((err) => {
+            res.clearCookie('connect.sid');
+            // Don't redirect, just print text
+            res.send('Logged out');
+        });
     }
 }

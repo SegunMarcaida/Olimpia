@@ -23,7 +23,7 @@ router.post('/register', register());
 // Login
 router.post('/login', login())
 
-router.get('/logout', logout())
+router.post('/logout', logout())
 
 
 

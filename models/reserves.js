@@ -9,16 +9,20 @@ const ReserveSchema = new mongoose.Schema({
       required: true
     },
     startDate: {
-        type: Number,
+        type: Date,
         required:true
     },
     endDate: {
-        type: Number,
+        type: Date,
         required: true
     },
     courtId: {
        type: ObjectId,
         required: true
+    },
+    isAccepted:{
+        type: Boolean,
+        default: false
     }
 },{collection: 'reserves'});
 

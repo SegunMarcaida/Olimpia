@@ -1,5 +1,5 @@
 
-const {MongoClient: {connect}   , ObjectId} = require("mongodb");
+const {MongoClient: {connect} } = require("mongodb");
 const {Field} = require("../../models/field").Field;
 const url = require('../../config/keys').mongoURI
 

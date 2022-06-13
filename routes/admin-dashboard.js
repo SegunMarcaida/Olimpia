@@ -14,4 +14,5 @@ router.get('/my-courts', ensureAuthenticated, ensureAuthorizedAdmin, myCourts())
 router.post('/add-court',ensureAuthenticated,ensureAuthorizedAdmin,addCourt())
 router.delete('/delete-court',ensureAuthenticated,ensureAuthorizedAdmin,deleteCourt())
 router.post('/edit-court',ensureAuthenticated,ensureAuthorizedAdmin,editCourt())
+
 module.exports = router;
