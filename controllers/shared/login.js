@@ -16,7 +16,7 @@ module.exports= function() {
                     if (err) {
                         return next(err);
                     }
-                    return res.send(202, {success: true, message: 'authentication succeeded', userID:user.id});
+                    return res.send(202, {success: true, message: 'authentication succeeded', userID:user.id, isAdmin: false});
                 });
             })(req, res, next);
         } else {
@@ -32,7 +32,7 @@ module.exports= function() {
                     if (err) {
                         return next(err);
                     }
-                    return res.send(202,{success: true, message: 'authentication succeeded', userId:user.id});
+                    return res.send(202,{success: true, message: 'authentication succeeded', userId:user.id, isAdmin:true});
                 });
             })(req, res, next);
         }
