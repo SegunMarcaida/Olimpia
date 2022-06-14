@@ -11,7 +11,7 @@ const addGrade = require("../controllers/user/addGrade");
 const gradeCount = require("../controllers/user/gradeCourt");
 const deleteReserve = require("../controllers/user/deleteReserve");
 const filterByAvailability = require("../controllers/user/Filter/FilterByAvailability");
-
+const profile = require("../controllers/shared/profile")
 //make a reserve
 router.post('/makeReserve' ,ensureAuthenticated,makeReserve())
 router.get('/myReservations' ,ensureAuthenticated, myReservations())
@@ -22,5 +22,6 @@ router.get('/price',ensureAuthenticated,filterByPrice())
 router.get('/availability', ensureAuthenticated,filterByAvailability())
 router.get("/addGrade",ensureAuthenticated,addGrade())
 router.get("/gradeCourt", ensureAuthenticated,gradeCount())
-router.get("/deleteCourt",ensureAuthenticated,deleteReserve())
+router.delete("/deleteReserve",ensureAuthenticated,deleteReserve())
+router.get("/profile",ensureAuthenticated,profile())
 module.exports = router;

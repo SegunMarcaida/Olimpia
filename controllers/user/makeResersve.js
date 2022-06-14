@@ -59,15 +59,17 @@ const MILISECONDS_IN_A_HOUR = 3600000
                     await Field.findOne({_id: courtId}).then(field2 => {
                         if(field2){
                             if (field2.openHour > getHoursFromMilisec(startDate) && field2.openHour > getHoursFromMilisec(endDate) && field2.closeHour < getHoursFromMilisec(startDate) && field2.closeHour < getHoursFromMilisec(endDate)) {
-                                console.log("2")
                                 res.send(418, {msg: 'invalid time'});
                             } else {
-                                console.log("4")
+                                let adminId = field2.adminId;
+                                let courtName= field2.name;
                                 let newReserve = new Reserves({
                                     userId: userIdObj,
                                     startDate: startDate,
                                     endDate: endDate,
-                                    courtId: courtIdObj
+                                    courtId: courtIdObj,
+                                    adminId: adminId,
+                                    courtName: courtName
                                 });
                                 newReserve.save();
                                 res.send(202, {msg: 'Reservation Completed', courtId: newReserve.id})

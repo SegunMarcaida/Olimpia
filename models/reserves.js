@@ -4,9 +4,17 @@ const {ObjectId} = require("mongodb");
 const FieldSchema = require("./field").FieldSchema
 
 const ReserveSchema = new mongoose.Schema({
+    courtName: {
+        type: String,
+        required: true,
+    },
     userId:{
       type: ObjectId,
       required: true
+    },
+    adminId:{
+        type: ObjectId,
+        required: true
     },
     startDate: {
         type: Date,
@@ -23,7 +31,8 @@ const ReserveSchema = new mongoose.Schema({
     isAccepted:{
         type: Boolean,
         default: false
-    }
+    },
+
 },{collection: 'reserves'});
 
 const Reserves = mongoose.model('Reserves', ReserveSchema);

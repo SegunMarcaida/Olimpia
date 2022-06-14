@@ -37,7 +37,10 @@ module.exports = async function(startDate, endDate){
 
             ]
         };
-     return dbo.collection("reserves").find(query).toArray();
+     let res = await dbo.collection("reserves").find(query).toArray();
+     await db.close()
+    return res
+
     }
 
 
