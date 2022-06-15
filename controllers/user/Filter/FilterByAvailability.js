@@ -3,15 +3,19 @@ const {mongoURI: url} = require("../../../config/keys");
 const notAvailableCourts = require("../../../utils/notAvailableCourts")
 const allFields = require("../../../utils/allFields")
 module.exports = function () {
-    console.log("1")
     return async function (req, res) {
+        console.log(req.body)
         let {startDate,endDate} = req.body
-        console.log( typeof startDate)
-        console.log(typeof endDate)
-        startDate = Date.parse(startDate)
-        endDate = Date.parse(endDate)
-        console.log( typeof startDate)
-        console.log(typeof endDate)
+        console.log( "1   " +typeof startDate)
+        console.log("1     "+typeof endDate)
+        console.log("2   " + startDate)
+        console.log("2    "+ endDate)
+        //startDate = Date.parse(startDate)
+        //endDate = Date.parse(endDate)
+        console.log("3   "+ typeof startDate)
+        console.log("3   " +typeof endDate)
+        console.log("4   " + startDate)
+        console.log("4    "+ endDate)
         let courts1 = [];
         let available = [];
 

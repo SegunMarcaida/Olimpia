@@ -12,6 +12,8 @@ const gradeCount = require("../controllers/user/gradeCourt");
 const deleteReserve = require("../controllers/user/deleteReserve");
 const filterByAvailability = require("../controllers/user/Filter/FilterByAvailability");
 const profile = require("../controllers/shared/profile")
+const establishmet = require("../controllers/user/establishmentProfile")
+const adminCourts = require("../controllers/user/adminCourts")
 //make a reserve
 router.post('/makeReserve' ,ensureAuthenticated,makeReserve())
 router.get('/myReservations' ,ensureAuthenticated, myReservations())
@@ -19,9 +21,11 @@ router.get('/courts' ,ensureAuthenticated, getCourts())
 router.get('/search', ensureAuthenticated,filterByName())
 router.get('/location',ensureAuthenticated,filterByLocation())
 router.get('/price',ensureAuthenticated,filterByPrice())
-router.get('/availability', ensureAuthenticated,filterByAvailability())
+router.post('/availability', ensureAuthenticated,filterByAvailability())
 router.get("/addGrade",ensureAuthenticated,addGrade())
 router.get("/gradeCourt", ensureAuthenticated,gradeCount())
 router.delete("/deleteReserve",ensureAuthenticated,deleteReserve())
 router.get("/profile",ensureAuthenticated,profile())
+router.post("/establishment",ensureAuthenticated,establishmet())
+router.post("/adminCourts",ensureAuthenticated,adminCourts)
 module.exports = router;

@@ -3,8 +3,8 @@ const {mongoURI: url} = require("../config/keys");
 const Reserves = require("../models/reserves");
 
 module.exports = async function(startDate, endDate){
-    console.log(startDate)
-    console.log(endDate)
+    console.log("5   " +startDate)
+    console.log("5   "+endDate)
     const db = await MongoClient.connect(url);
         let dbo = db.db();
         let query = {
@@ -42,7 +42,7 @@ module.exports = async function(startDate, endDate){
         };
         let res;
       await Reserves.find(query).then(result=>{
-         console.log("result:"+ result)
+         console.log("result:   "+ result)
          res=result
      });
      console.log(res)

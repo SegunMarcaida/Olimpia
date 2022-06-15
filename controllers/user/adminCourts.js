@@ -1,14 +1,14 @@
 const {MongoClient, ObjectId} = require("mongodb");
 const url = require('../../config/keys').mongoURI
-module.exports = function(){
+
+module.exports = function() {
     return async function (req, res) {
-        let userId = req.user._id;
-        userId = new ObjectId(userId)
-        MongoClient.connect(url, (err, db) => {
+        let adminId = req.body.id;
+        MongoClient.connect(url, async function (err, db) {
             if (err) throw err;
             let dbo = db.db();
-            let query = {userId: userId};
-            dbo.collection("reserves").find(query).toArray(function (err, result) {
+            let query = {adminId: adminId};
+            await dbo.collection("fields").find(query).toArray(function (err, result) {
                 if (err) throw err;
                 res.send(result);
 
