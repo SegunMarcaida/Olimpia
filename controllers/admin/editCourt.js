@@ -7,7 +7,7 @@ module.exports = function () {
 
     return async function (req, res) {
         const adminId = req.user._id
-        const { name, sport, location, description, price} = req.body;
+        const { name, sport, location, description, price,openHour,closeHour} = req.body;
         const newValues = {};
         let id = new ObjectId(req.body.id);
         let errors = [];
@@ -18,6 +18,24 @@ module.exports = function () {
                 newValues["name"] = name
             }
         }
+
+        if (openHour) {
+            if (typeof name !== 'number') {
+                errors.push({msg: 'wrong data type'})
+            } else {
+                newValues["openHour"] = openHour
+            }
+        }
+
+
+        if (closeHour) {
+            if (typeof name !== 'number') {
+                errors.push({msg: 'wrong data type'})
+            } else {
+                newValues["closeHour"] = closeHour
+            }
+        }
+
         if (sport) {
             if (typeof sport !== 'string') {
                 errors.push({msg: 'wrong data type'})
