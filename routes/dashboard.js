@@ -14,6 +14,7 @@ const filterByAvailability = require("../controllers/user/Filter/FilterByAvailab
 const profile = require("../controllers/shared/profile")
 const establishmet = require("../controllers/user/establishmentProfile")
 const adminCourts = require("../controllers/user/adminCourts")
+const availableTime = require("../controllers/user/availableTime")
 //make a reserve
 router.post('/makeReserve' ,ensureAuthenticated,makeReserve())
 router.get('/myReservations' ,ensureAuthenticated, myReservations())
@@ -28,4 +29,5 @@ router.delete("/deleteReserve",ensureAuthenticated,deleteReserve())
 router.get("/profile",ensureAuthenticated,profile())
 router.post("/establishment",ensureAuthenticated,establishmet())
 router.post("/adminCourts",ensureAuthenticated,adminCourts)
+router.post("/availableTime", ensureAuthenticated, availableTime())
 module.exports = router;
