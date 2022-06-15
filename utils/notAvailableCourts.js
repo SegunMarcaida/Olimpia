@@ -1,7 +1,10 @@
 const {MongoClient} = require("mongodb");
 const {mongoURI: url} = require("../config/keys");
+const Reserves = require("../models/reserves");
 
 module.exports = async function(startDate, endDate){
+    console.log(startDate)
+    console.log(endDate)
     const db = await MongoClient.connect(url);
         let dbo = db.db();
         let query = {
@@ -37,7 +40,12 @@ module.exports = async function(startDate, endDate){
 
             ]
         };
-     let res = await dbo.collection("reserves").find(query).toArray();
+        let res;
+      await Reserves.find(query).then(result=>{
+         console.log("result:"+ result)
+         res=result
+     });
+     console.log(res)
      await db.close()
     return res
 

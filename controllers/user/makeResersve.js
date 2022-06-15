@@ -14,6 +14,8 @@ const MILISECONDS_IN_A_HOUR = 3600000
               let userIdObj = new ObjectId(userId)
             startDate = Date.parse(startDate)
             endDate = Date.parse(endDate)
+            console.log( typeof startDate)
+            console.log(typeof endDate)
             let query1 = {
                 $and: [{
                     $or: [{
@@ -73,7 +75,6 @@ const MILISECONDS_IN_A_HOUR = 3600000
                                 });
                                 newReserve.save();
                                 res.send(202, {msg: 'Reservation Completed', courtId: newReserve.id})
-                                console.log("4")
                             }
                         }else{
                             res.send(400, {msg: "error"})
