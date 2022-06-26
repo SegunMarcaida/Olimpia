@@ -1,87 +1,173 @@
 const Reserves = require("../../models/reserves");
 const {ObjectId} = require("mongodb");
 const {Field} = require("../../models/field");
-const MILISECONDS_IN_A_DAY = 86400000
-const MILISECONDS_IN_A_HOUR = 3600000
+const MILISECONDS_IN_A_WEEK = 604800000
+const  getPos = require("../../utils/getPos")
     module.exports = function () {
-       let getHoursFromMilisec = function (milisec) {
-           let hoursInMilisec = parseInt(milisec / MILISECONDS_IN_A_DAY);
-           return parseInt(hoursInMilisec / MILISECONDS_IN_A_HOUR)
-       }
+
         return async function (req, res) {
-            let {userId, startDate, endDate,courtId} = req.body;
-              let courtIdObj = new ObjectId(courtId)
-              let userIdObj = new ObjectId(userId)
-            startDate = Date.parse(startDate)
-            endDate = Date.parse(endDate)
-            console.log( typeof startDate)
-            console.log(typeof endDate)
-            let query1 = {
-                $and: [{
-                    $or: [{
-                        $and: [
-                                    {
-                                startDate: {'$lte': startDate}
-                            },
-                            {
-                                endDate: {'$gte': startDate}
-                            }
-
-                        ]
-                    }, {
-                        $and: [
-                            {
-                                startDate: {'$gte': startDate}
-                            },
-                            {
-                                endDate: {'$lte': endDate}
-                            }
-                        ]
-                    }, {
-                        $and: [
-                            {
-                                startDate: {'$lte': endDate}
-                            },
-                            {
-                                endDate: {'$gte': endDate}
-                            }
-                        ]
-                    }
-
-                    ]
-                },
-                    {courtId: courtId},
-                ]
-            };
-            await Reserves.findOne(query1).then(async field => {
-                if (field) {
-                    console.log( "field: " + field)
-                    res.send(418, {msg: 'already Reserved'});
-                } else {
-                    await Field.findOne({_id: courtId}).then(field2 => {
-                        if(field2){
-                            if (field2.openHour > getHoursFromMilisec(startDate) && field2.openHour > getHoursFromMilisec(endDate) && field2.closeHour < getHoursFromMilisec(startDate) && field2.closeHour < getHoursFromMilisec(endDate)) {
-                                res.send(418, {msg: 'invalid time'});
-                            } else {
-                                let adminId = field2.adminId;
-                                let courtName= field2.name;
-                                let newReserve = new Reserves({
-                                    userId: userIdObj,
-                                    startDate: startDate,
-                                    endDate: endDate,
-                                    courtId: courtIdObj,
-                                    adminId: adminId,
-                                    courtName: courtName
-                                });
-                                newReserve.save();
-                                res.send(202, {msg: 'Reservation Completed', courtId: newReserve.id})
-                            }
-                        }else{
-                            res.send(400, {msg: "error"})
+            let userId = req.user.id
+            let {startDate:startDate0, endDate:endDate0, courtId} = req.body;
+            let courtIdObj = ObjectId(courtId)
+            let userIdObj = ObjectId(userId)
+          let  startDate = new Date(startDate0)
+           let endDate = new Date(endDate0)
+            let startDay = startDate.getDay()
+            let endDay = endDate.getDay();
+            let startHours = startDate.getHours()
+            let endHours = endDate.getHours()
+            let startMinutes = startDate.getMinutes()
+            let endMinutes = endDate.getMinutes()
+            let startPos = getPos(startHours, startMinutes)
+            let endPos = getPos(endHours, endMinutes)
+            let now = new Date()
+            if (startDate == NaN || endDate == NaN || startDate>=now+MILISECONDS_IN_A_WEEK ||startDate<= now || startDate>= endDate) {
+                res.send(400, {msg: "error"})
+            }
+            let query1 = {_id: courtIdObj}
+            let field = await Field.findOne(query1)
+            if (field && startDay === endDay) {
+                let isAvailable = true
+                let reserves = field.reserves
+                switch (startDay) {
+                    case 0:
+                        if(startHours<reserves.Sunday.openHour || endHours>reserves.Sunday.closeHour) {
+                            isAvailable = false
                         }
-                    })
+                        for (let i = startPos; i <=endPos ; i++) {
+                            if (reserves.Sunday.time[i]){
+                                isAvailable = false
+                            }
+                        }
+                        if(isAvailable){
+                            for (let i = startPos; i < endPos ; i++) {
+                                reserves.Sunday.time[i] = true
+                            }
+                        }
+                            break;
+                    case 1:
+                        if(startHours<reserves.Monday.openHour || endHours>reserves.Monday.closeHour) {
+                            isAvailable = false
+                        }
+                        for (let i = startPos; i <=endPos ; i++) {
+                            if (reserves.Monday.time[i]){
+                                isAvailable = false
+                            }
+                        }
+                        if(isAvailable){
+                            for (let i = startPos; i < endPos ; i++) {
+                                reserves.Monday.time[i] = true
+                            }
+                        }
+                        break;
+                    case 2:
+                        if(startHours<reserves.Tuesday.openHour || endHours>reserves.Tuesday.closeHour) {
+                            isAvailable = false
+                        }
+                        for (let i = startPos; i <=endPos ; i++) {
+                            if (reserves.Tuesday.time[i]){
+                                isAvailable = false
+                            }
+                        }
+                        if(isAvailable){
+                            for (let i = startPos; i < endPos ; i++) {
+                                reserves.Tuesday.time[i] = true
+                            }
+                        }
+                        break;
+                    case 3:
+                        if(startHours<reserves.Wednesday.openHour || endHours>reserves.Wednesday.closeHour) {
+                            isAvailable = false
+                        }
+                        for (let i = startPos; i <=endPos ; i++) {
+                            if (reserves.Wednesday.time[i]){
+                                isAvailable = false
+                            }
+                        }
+                        if(isAvailable){
+                            for (let i = startPos; i < endPos ; i++) {
+                                reserves.Wednesday.time[i] = true
+                            }
+                        }
+                        break;
+                    case 4:
+                        if(startHours<reserves.Thursday.openHour || endHours>reserves.Thursday.closeHour) {
+                            isAvailable = false
+                        }
+                        for (let i = startPos; i <=endPos ; i++) {
+                            if (reserves.Thursday.time[i]){
+                                isAvailable = false
+                            }
+                        }
+                        if(isAvailable){
+                            for (let i = startPos; i < endPos ; i++) {
+                                reserves.Thursday.time[i] = true
+                            }
+                        }
+                        break;
+                    case 5:
+                        console.log("Friday")
+                        if(startHours<reserves.Friday.openHour || endHours>reserves.Friday.closeHour) {
+                            isAvailable = false
+                            console.log("1")
+                        }
+                        for (let i = startPos; i <=endPos ; i++) {
+                            if (reserves.Friday.time[i]){
+                                isAvailable = false
+                            }
+                        }
+                        if(isAvailable){
+                            for (let i = startPos; i < endPos ; i++) {
+                                reserves.Friday.time[i] = true
+                            }
+                            console.log("Friday "+ reserves.Friday.time)
+                        }
+                        break;
+                    case 6:
+                        if(startHours<reserves.Saturday.openHour || endHours>reserves.Saturday.closeHour) {
+                            isAvailable = false
+                        }
+                        for (let i = startPos; i <=endPos ; i++) {
+                            if (reserves.Saturday.time[i]){
+                                isAvailable = false
+                            }
+                        }
+                        if(isAvailable){
+                            for (let i = startPos; i < endPos ; i++) {
+                                reserves.Saturday.time[i] = true
+                            }
+                        }
                 }
-            })
-        }
+                if (isAvailable){
+                    console.log("reserves: "+ reserves)
+                    Field.updateOne(query1,{$set: {reserves: reserves}}).then(async field2 => {
+                        if (field2) {
+                            console.log("field2: "+ field2)
+                            let newReserve = await new Reserves({
+                                courtName: field.name,
+                                userId: userId,
+                                adminId: field.adminId,
+                                courtId: field._id,
+                                startTime: startDate0,
+                                endTime: endDate0,
+                            })
+                            newReserve.save()
+                            res.send(200, {msg: "Reservation Sent"})
 
-}
+                        }else {
+                            res.send(400, {msg: "error 1"})
+                        }
+
+                    })
+                }else{
+                    res.send(400, {msg: "unavailable"})
+                }
+
+            }
+            else{
+                res.send(400, {msg: "error 0",field})
+            }
+
+
+        }
+    }

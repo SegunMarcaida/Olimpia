@@ -9,7 +9,7 @@ const ReservesRequests = require('../controllers/admin/reservesRequests')
 const AcceptRequest = require('../controllers/admin/acceptReserve')
 const profile = require("../controllers/shared/profile")
 //findReserves
-router.get('/my-courts', ensureAuthenticated, ensureAuthorizedAdmin, myCourts())
+router.get('/my-courts', ensureAuthenticated, myCourts())
 
 
 // add Field    

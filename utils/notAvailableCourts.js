@@ -45,7 +45,6 @@ module.exports = async function(startDate, endDate){
          console.log("result:   "+ result)
          res=result
      });
-     console.log(res)
      await db.close()
     return res
 

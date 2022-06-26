@@ -4,7 +4,7 @@ module.exports = function () {
     return async function (req, res) {
         const adminId = req.user._id
         let errors = [];
-        const {name, sport, location, description, price, closeHour, openHour} = req.body;
+        const {name, sport, location, description, price, closeHourSun, openHourSun,closeHourMon, openHourMon,closeHourTue, openHourTue,closeHourWed, openHourWed,closeHourThur, openHourThur,closeHourFri, openHourFri,closeHourSat, openHourSat} = req.body;
         if (!name || !sport || !location || !description || !price) {
             errors.push({msg: " please fill all data"})
         }
@@ -29,7 +29,37 @@ module.exports = function () {
                 if (field) {
                     res.send(418, {msg: 'field already registered',});
                 } else {
-                    let newField = new Field({name, sport, location, description, price, adminId,openHour,closeHour,qualification:[]})
+                    let newField = new Field({name, sport, location, description, price, adminId,qualification:[],
+                        reserves:{
+                             Monday:{
+                            openHour: openHourMon,
+                            closeHour:closeHourMon
+                            },
+                            Tuesday:{
+                                openHour: openHourTue,
+                                closeHour:closeHourTue
+                            },
+                            Wednesday:{
+                                openHour: openHourWed,
+                                closeHour:closeHourWed
+                            },
+                            Thursday:{
+                                openHour: openHourThur,
+                                closeHour:closeHourThur
+                            },
+                            Friday:{
+                                openHour: openHourFri,
+                                closeHour:closeHourFri
+                            },
+                            Saturday:{
+                                openHour: openHourSat,
+                                closeHour:closeHourSat
+                            },
+                            Sunday:{
+                                openHour: openHourSun,
+                                closeHour:closeHourSun
+                            },
+                        }})
                     newField.save()
                     res.send(202, {
                         msg: 'court saved successfully',

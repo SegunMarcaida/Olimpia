@@ -16,14 +16,6 @@ const ReserveSchema = new mongoose.Schema({
         type: ObjectId,
         required: true
     },
-    startDate: {
-        type: Date,
-        required:true
-    },
-    endDate: {
-        type: Date,
-        required: true
-    },
     courtId: {
        type: ObjectId,
         required: true
@@ -31,6 +23,14 @@ const ReserveSchema = new mongoose.Schema({
     isAccepted:{
         type: Boolean,
         default: false
+    },
+    startTime:{
+        type:Date,
+        required: true
+    },
+    endTime:{
+        type:Date,
+        required: true
     },
 
 },{collection: 'reserves'});
