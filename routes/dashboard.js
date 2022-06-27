@@ -16,6 +16,7 @@ const establishmet = require("../controllers/user/establishmentProfile")
 const adminCourts = require("../controllers/user/adminCourts")
 const availableTime = require("../controllers/user/availableTime")
 const getCourt = require("../controllers/user/getCourt")
+const  editProfile = require("../controllers/user/editProfile")
 //make a reserve
 router.post('/makeReserve' ,ensureAuthenticated,makeReserve())
 router.get('/myReservations' ,ensureAuthenticated, myReservations())
@@ -32,4 +33,5 @@ router.post("/establishment",ensureAuthenticated,establishmet())
 router.post("/adminCourts",ensureAuthenticated,adminCourts())
 router.post("/availableTime", ensureAuthenticated, availableTime())
 router.post("/getCourt",ensureAuthenticated,getCourt())
+router.post("/editProfile",ensureAuthenticated,editProfile())
 module.exports = router;

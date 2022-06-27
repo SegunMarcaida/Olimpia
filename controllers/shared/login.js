@@ -15,7 +15,7 @@ module.exports= function() {
                 }
                 // Generate a JSON response reflecting authentication status
                 if (!user) {
-                    return res.send(401, {success: false, message: 'authentication failed'});
+                    return res.send(401, {success: false, message: 'INCORRECT PASSWORD OR EMAIL'});
                 }
                 req.login(user, function (err) {
                     if (err) {

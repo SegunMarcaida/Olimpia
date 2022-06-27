@@ -46,8 +46,7 @@ const FieldSchema = new mongoose.Schema({
             time:{
                 type: [Boolean],
                 default: [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,]
-            }
-
+            },
         },
         Tuesday: {
             openHour: {
