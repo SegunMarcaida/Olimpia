@@ -69,10 +69,10 @@ module.exports = function () {
                 Field.updateOne({_id:courtId},{$set: {reserves: reserves}}).then(async field2 => {
 
                     if (field2){
-                        await Reserves.deleteOne({_id: _id}, function (err, question) {
+                        await Reserves.updateOne({_id: _id},{$set: {isRejected: true}}, function (err, question) {
                             if (err) throw err;
                             console.log(question)
-                            res.send(202, {msg: 'court delete successfully',});
+                            res.send(202, {msg: 'Reserve delete successfully',});
                         })
                     }else{
                           res.send(400,{msg:"error 2 field not found"})

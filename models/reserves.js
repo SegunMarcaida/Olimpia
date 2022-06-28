@@ -24,6 +24,10 @@ const ReserveSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    isRejected:{
+      type: Boolean,
+      default:false
+    },
     startTime:{
         type:Date,
         required: true

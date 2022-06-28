@@ -45,7 +45,7 @@ const FieldSchema = new mongoose.Schema({
             },
             time:{
                 type: [Boolean],
-                default: [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,]
+                required: true
             },
         },
         Tuesday: {
@@ -59,7 +59,7 @@ const FieldSchema = new mongoose.Schema({
             },
             time: {
                 type: [Boolean],
-                default: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,]
+                required: true
             },
         },
             Wednesday:{
@@ -73,7 +73,7 @@ const FieldSchema = new mongoose.Schema({
                 },
                 time:{
                     type: [Boolean],
-                    default: [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,]
+                    required: true
                 },
             },
                 Thursday:{
@@ -87,7 +87,7 @@ const FieldSchema = new mongoose.Schema({
                     },
                     time:{
                         type: [Boolean],
-                        default: [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,]
+                        required: true
                     },
                 },
                     Friday:{
@@ -101,7 +101,7 @@ const FieldSchema = new mongoose.Schema({
                         },
                         time: {
                             type: [Boolean],
-                            default: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,]
+                            required: true
                             }
                         },
                         Saturday:{
@@ -115,7 +115,7 @@ const FieldSchema = new mongoose.Schema({
                             },
                             time:{
                                 type: [Boolean],
-                                default: [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,]
+                                default: true
                             },
                         },
                             Sunday:{
@@ -129,7 +129,7 @@ const FieldSchema = new mongoose.Schema({
                                 },
                                 time:{
                                     type: [Boolean],
-                                    default: [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,]
+                                    required: true
                                 }
                             },
     }

@@ -9,59 +9,59 @@ module.exports = function () {
         const adminId = req.user._id
         const { name, sport, location, description, price,openHourMon,closeHourMon,openHourTue,closeHourTue,closeHourWed,openHourWed,openHourThu,closeHourThu,openHourFri,closeHourFri,openHourSat,closeHourSat,openHourSun,closeHourSun,} = req.body;
         const newValues = {};
-        let id = new ObjectId(req.body.id);
+        let id = ObjectId(req.body._id);
         let errors = [];
 
 
         let field = await Field.findOne({_id:id})
 
-
-        if (name) {
-            if (typeof name !== 'string') {
-                errors.push({msg: 'wrong data type'})
-            } else {
-                field.name = name
+        if(field){
+            if (name) {
+                if (typeof name !== 'string') {
+                    errors.push({msg: 'wrong data type'})
+                } else {
+                    field.name = name
+                }
             }
-        }
-
-
 
 
 
-        if (sport) {
-            if (typeof sport !== 'string') {
-                errors.push({msg: 'wrong data type'})
+
+
+            if (sport) {
+                if (typeof sport !== 'string') {
+                    errors.push({msg: 'wrong data type'})
+                }
+                if (sport !== 'Football' && sport !== 'Basketball' && sport !== 'Tennis' && sport !== 'Paddle') {
+                    errors.push({msg: " Invalid Sport"})
+                } else {
+                    field.sport = sport
+                }
             }
-            if (sport !== 'Football' && sport !== 'Basketball' && sport !== 'Tennis' && sport !== 'Paddle') {
-                errors.push({msg: " Invalid Sport"})
-            } else {
-                field.sport = sport
+            if (location) {
+                if (typeof location !== 'object') {
+                    errors.push({msg: 'wrong data type'})
+                } else {
+                    field.location = location
+                }
             }
-        }
-        if (location) {
-            if (typeof location !== 'object') {
-                errors.push({msg: 'wrong data type'})
-            } else {
-                field.location = location
+            if (description) {
+                if (typeof description !== 'string') {
+                    errors.push({msg: 'wrong data type'})
+                } else {
+                    field.description = description
+                }
             }
-        }
-        if (description) {
-            if (typeof description !== 'string') {
-                errors.push({msg: 'wrong data type'})
-            } else {
-                field.description = description
+            if (price) {
+                if (typeof price !== 'number') {
+                    errors.push({msg: 'wrong data type'})
+                }
+                if (price <= 0) {
+                    errors.push({msg: " Invalid Price"})
+                } else {
+                    field.price= price
+                }
             }
-        }
-        if (price) {
-            if (typeof price !== 'number') {
-                errors.push({msg: 'wrong data type'})
-            }
-            if (price <= 0) {
-                errors.push({msg: " Invalid Price"})
-            } else {
-                field.price= price
-            }
-        }
             if(openHourMon){
                 if (typeof price !== 'number') {
                     errors.push({msg: 'wrong data type'})
@@ -70,121 +70,123 @@ module.exports = function () {
                     field.reserves.Monday.openHour= openHourMon
                 }
             }
-        if(closeHourMon){
-            if (typeof price !== 'number') {
-                errors.push({msg: 'wrong data type'})
+            if(closeHourMon){
+                if (typeof price !== 'number') {
+                    errors.push({msg: 'wrong data type'})
+                }
+                else{
+                    field.reserves.Monday.closeHour= closeHourMon
+                }
             }
-            else{
-                field.reserves.Monday.closeHour= closeHourMon
+            if(openHourTue){
+                if (typeof price !== 'number') {
+                    errors.push({msg: 'wrong data type'})
+                }
+                else{
+                    field.reserves.Tuesday.openHour= openHourTue
+                }
             }
-        }
-        if(openHourTue){
-            if (typeof price !== 'number') {
-                errors.push({msg: 'wrong data type'})
+            if(closeHourTue){
+                if (typeof price !== 'number') {
+                    errors.push({msg: 'wrong data type'})
+                }
+                else{
+                    field.reserves.Tuesday.closeHour= closeHourTue
+                }
             }
-            else{
-                field.reserves.Tuesday.openHour= openHourTue
+            if(openHourWed){
+                if (typeof price !== 'number') {
+                    errors.push({msg: 'wrong data type'})
+                }
+                else{
+                    field.reserves.Wednesday.openHour= openHourWed
+                }
             }
-        }
-        if(closeHourTue){
-            if (typeof price !== 'number') {
-                errors.push({msg: 'wrong data type'})
+            if(closeHourWed){
+                if (typeof price !== 'number') {
+                    errors.push({msg: 'wrong data type'})
+                }
+                else{
+                    field.reserves.Wednesday.closeHour= closeHourWed
+                }
             }
-            else{
-                field.reserves.Tuesday.closeHour= closeHourTue
+            if(openHourThu){
+                if (typeof price !== 'number') {
+                    errors.push({msg: 'wrong data type'})
+                }
+                else{
+                    field.reserves.Thursday.openHour= openHourThu
+                }
             }
-        }
-        if(openHourWed){
-            if (typeof price !== 'number') {
-                errors.push({msg: 'wrong data type'})
+            if(closeHourThu){
+                if (typeof price !== 'number') {
+                    errors.push({msg: 'wrong data type'})
+                }
+                else{
+                    field.reserves.Thursday.closeHour= closeHourThu
+                }
             }
-            else{
-                field.reserves.Wednesday.openHour= openHourWed
+            if(openHourFri){
+                if (typeof price !== 'number') {
+                    errors.push({msg: 'wrong data type'})
+                }
+                else{
+                    field.reserves.Friday.openHour= openHourFri
+                }
             }
-        }
-        if(closeHourWed){
-            if (typeof price !== 'number') {
-                errors.push({msg: 'wrong data type'})
+
+
+            if(closeHourFri){
+                if (typeof price !== 'number') {
+                    errors.push({msg: 'wrong data type'})
+                }
+                else{
+                    field.reserves.Friday.closeHour= closeHourFri
+                }
             }
-            else{
-                field.reserves.Wednesday.closeHour= closeHourWed
+            if(closeHourFri){
+                if (typeof price !== 'number') {
+                    errors.push({msg: 'wrong data type'})
+                }
+                else{
+                    field.reserves.Friday.closeHour= closeHourFri
+                }
             }
-        }
-        if(openHourThu){
-            if (typeof price !== 'number') {
-                errors.push({msg: 'wrong data type'})
+
+            if(openHourSat){
+                if (typeof price !== 'number') {
+                    errors.push({msg: 'wrong data type'})
+                }
+                else{
+                    field.reserves.Saturday.openHour= openHourSat
+                }
             }
-            else{
-                field.reserves.Thursday.openHour= openHourThu
+            if(closeHourSat){
+                if (typeof price !== 'number') {
+                    errors.push({msg: 'wrong data type'})
+                }
+                else{
+                    field.reserves.Saturday.closeHour= closeHourSat
+                }
             }
-        }
-        if(closeHourThu){
-            if (typeof price !== 'number') {
-                errors.push({msg: 'wrong data type'})
+            if(openHourSun){
+                if (typeof price !== 'number') {
+                    errors.push({msg: 'wrong data type'})
+                }
+                else{
+                    field.reserves.Sunday.openHour= openHourSun
+                }
             }
-            else{
-                field.reserves.Thursday.closeHour= closeHourThu
-            }
-        }
-        if(openHourFri){
-            if (typeof price !== 'number') {
-                errors.push({msg: 'wrong data type'})
-            }
-            else{
-                field.reserves.Friday.openHour= openHourFri
+            if(closeHourSun){
+                if (typeof price !== 'number') {
+                    errors.push({msg: 'wrong data type'})
+                }
+                else{
+                    field.reserves.Sunday.closeHour= closeHourSun
+                }
             }
         }
 
-
-        if(closeHourFri){
-            if (typeof price !== 'number') {
-                errors.push({msg: 'wrong data type'})
-            }
-            else{
-                field.reserves.Friday.closeHour= closeHourFri
-            }
-        }
-        if(closeHourFri){
-            if (typeof price !== 'number') {
-                errors.push({msg: 'wrong data type'})
-            }
-            else{
-                field.reserves.Friday.closeHour= closeHourFri
-            }
-        }
-
-        if(openHourSat){
-            if (typeof price !== 'number') {
-                errors.push({msg: 'wrong data type'})
-            }
-            else{
-                field.reserves.Saturday.openHour= openHourSat
-            }
-        }
-        if(closeHourSat){
-            if (typeof price !== 'number') {
-                errors.push({msg: 'wrong data type'})
-            }
-            else{
-                field.reserves.Saturday.closeHour= closeHourSat
-            }
-        }
-        if(openHourSun){
-            if (typeof price !== 'number') {
-                errors.push({msg: 'wrong data type'})
-            }
-            else{
-                field.reserves.Sunday.openHour= openHourSun
-            }
-        }
-        if(closeHourSun){
-            if (typeof price !== 'number') {
-                errors.push({msg: 'wrong data type'})
-            }
-            else{
-                field.reserves.Sunday.closeHour= closeHourSun
-            }
-        }
         if (errors.length > 0) {
             res.send(400, {
                 success: false, msg: 'there are some errors',
